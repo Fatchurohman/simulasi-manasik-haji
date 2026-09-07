@@ -1,6 +1,6 @@
 /**
  * Nama File: manasik_tanah_suci.js
- * Fungsi: Simulasi Detail Alur Kedatangan Gelombang 1 (Bandara Madinah hingga Bir Ali)
+ * Fungsi: Simulasi Detail Alur Kedatangan Gelombang 1 & Lafaz Talbiyah
  */
 
 const databaseManasik = {
@@ -32,8 +32,13 @@ const databaseManasik = {
         rincianBerangkat: [
             "Setelah masa Arbain selesai, jemaah mengenakan pakaian ihram dari hotel (atau mandi sunnah ihram).",
             "Naik bus menuju Makkah dan singgah di Bir Ali (miqat makani) untuk mengambil miqat umrah qudum.",
-            "Memulai niat umrah dan memperbanyak bacaan Talbiyah sepanjang perjalanan."
-        ]
+            "Memulai niat umrah dan memperbanyak bacaan Talbiyah sepanjang perjalanan bus menuju Makkah."
+        ],
+        bacaanTalbiyah: {
+            arab: "لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لَا شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ، لَا شَرِيكَ لَكَ",
+            latin: "Labbaikallãhumma labbaik, labbaika lã syarīka laka labbaik, innal-hamda wan-ni'mata laka wal-mulk, lã syarīka lak.",
+            arti: "Ya Allah, aku datang memenuhi panggilan-Mu. Ya Allah, aku datang memenuhi panggilan-Mu. Tiada sekutu bagi-Mu, aku datang memenuhi panggilan-Mu. Sesungguhnya segala pujian, nikmat, dan kekuasaan adalah milik-Mu, tiada sekutu bagi-Mu."
+        }
     }
 };
 
@@ -63,10 +68,19 @@ function jalankanSimulasiManasik(dataManasik) {
     }
 
     const pergeseran = dataManasik.pergeseranMiqat;
-    if (pergeseran && Array.isArray(pergeseran.rincianBerangkat)) {
+    if (pergeseran) {
         console.log(`\n[FASE 3] ${pergeseran.lokasi}`);
-        pergeseran.rincianBerangkat.forEach((poin) => {
-            console.log(`  - ${poin}`);
-        });
+        if (Array.isArray(pergeseran.rincianBerangkat)) {
+            pergeseran.rincianBerangkat.forEach((poin) => {
+                console.log(`  - ${poin}`);
+            });
+        }
+        
+        if (pergeseran.bacaanTalbiyah) {
+            console.log("\n   🔊 BACAAN TALBIYAH DI SEPANJANG JALAN:");
+            console.log(`   Arab : ${pergeseran.bacaanTalbiyah.arab}`);
+            console.log(`   Latin: ${pergeseran.bacaanTalbiyah.latin}`);
+            console.log(`   Arti : "${pergeseran.bacaanTalbiyah.arti}"`);
+        }
     }
 }
