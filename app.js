@@ -1,11 +1,9 @@
 /**
  * Nama File: app.js
- * Fungsi: Menghubungkan Interaksi Tombol UI dengan Logika Simulasi Manasik
- * Bahasa: JavaScript (ES6+)
+ * Fungsi: Menghubungkan Interaksi Tombol UI dengan Logika Simulasi Manasik & Mini-Quest
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Ambil elemen DOM secara aman dengan validasi null
     const btnGateway = document.getElementById('btnGateway');
     const btnTanahSuci = document.getElementById('btnTanahSuci');
     const btnPuncakHaji = document.getElementById('btnPuncakHaji');
@@ -16,29 +14,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    /**
-     * Fungsi pembantu untuk mencetak teks ke console box di halaman web
-     * @param {string} teks - Pesan yang akan ditampilkan
-     */
     function cetakKeLayar(teks) {
         outputConsole.textContent = teks;
     }
 
-    /**
-     * Helper untuk menangkap output console.log agar tampil di web
-     * @param {Function} callbackFungsi - Fungsi logika game yang akan dijalankan
-     */
     function tangkapLog(callbackFungsi) {
         let hasilTampungan = "";
-        
-        // Simpan fungsi console.log asli
         const logAsli = console.log;
         const errorAsli = console.error;
 
-        // Timpa sementara console.log untuk merekam string
         console.log = function (pesan) {
             hasilTampungan += pesan + "\n";
-            logAsli(pesan); // Tetap cetak di console browser asli untuk debugging
+            logAsli(pesan);
         };
 
         console.error = function (pesan) {
@@ -51,20 +38,17 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (err) {
             hasilTampungan += "Exception: " + err.message;
         } finally {
-            // Kembalikan fungsi console ke semula
             console.log = logAsli;
             console.error = errorAsli;
-            
-            // Tampilkan hasil gabungan ke kotak web
             cetakKeLayar(hasilTampungan.trim());
         }
     }
 
-    // Event Listener untuk Tombol 1: Cek Berkas Kemenag
+    // Tombol 1: Cek Berkas & Otomatis Memicu Solusi Kesehatan jika Gagal
     btnGateway.addEventListener('click', () => {
         tangkapLog(() => {
             console.log(`=== STATUS PENDAFTARAN KEMENAG: ${jamaahData.nama} (${jamaahData.nom}) ===`);
-            const hasilVerifikasi = validasiKeberangkatan(jamaahData);
+            let hasilVerifikasi = validasiKeberangkatan(jamaahData);
             
             console.log(`\nStatus: ${hasilVerifikasi.status ? "LOLOS (BERANGKAT)" : "DITUNDA (BELUM LENGKAP)"}`);
             console.log(`Pesan: ${hasilVerifikasi.pesan}`);
@@ -74,18 +58,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 hasilVerifikasi.kekurangan.forEach((item, index) => {
                     console.log(`${index + 1}. [X] ${item}`);
                 });
+
+                // Simulasi aksi aktif user berusaha memenuhi syarat
+                console.log("\n------------------------------------------");
+                console.log("[AKSI DISARANKAN]: Kesehatan belum istitha'ah.");
+                console.log("Menjalankan proses pengobatan & cek kesehatan ulang...");
+                
+                const hasilPulih = prosesPemulihanKesehatan();
+                console.log(`> ${hasilPulih}`);
+
+                // Cek ulang otomatis setelah berusaha
+                console.log("\n[VALIDASI ULANG KEMENAG]:");
+                hasilVerifikasi = validasiKeberangkatan(jamaahData);
+                console.log(`Status Terbaru: ${hasilVerifikasi.status ? "LOLOS (BERANGKAT)" : "DITUNDA"}`);
+                console.log(`Pesan: ${hasilVerifikasi.pesan}`);
             }
         });
     });
 
-    // Event Listener untuk Tombol 2: Perjalanan & Madinah
     btnTanahSuci.addEventListener('click', () => {
         tangkapLog(() => {
             jalankanSimulasiManasik(databaseManasik);
         });
     });
 
-    // Event Listener untuk Tombol 3: Puncak Haji (Arafah - Mina)
     btnPuncakHaji.addEventListener('click', () => {
         tangkapLog(() => {
             jalankanPuncakHaji(rutePuncakHaji);
