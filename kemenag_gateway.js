@@ -1,28 +1,27 @@
 /**
  * Nama File: kemenag_gateway.js
- * Fungsi: Sistem Verifikasi Berkas & Mini-Quest Perbaikan Kesehatan Istitha'ah
+ * Fungsi: Sistem Verifikasi Berkas, Vaksin Wajib Kemenkes, & Istitha'ah
  */
 
-// Data awal jamaah (Kesehatan diset false agar pemain harus berusaha dulu)
+// Data jamaah dibuat dinamis (nama awalnya kosong/kosongan)
 let jamaahData = {
-    nama: "Fatchurohman",
+    nama: "",
     nom: "REG-2026-0089",
     syarat: {
         ktpValid: true,
         pasporAktif: true,
         lunasBpih: true,
-        sehatMedis: false 
+        vaksinMeningitis: true,
+        vaksinPolio: false, // Belum disuntik polio di awal
+        sehatMedis: true
     }
 };
 
-/**
- * Fungsi untuk memvalidasi kelayakan terbang jamaah
- */
 function validasiKeberangkatan(data) {
-    if (!data || typeof data !== 'object' || !data.syarat) {
+    if (!data || typeof data !== 'object' || !data.syarat || !data.nama) {
         return {
             status: false,
-            pesan: "Error: Data jamaah tidak valid atau korup.",
+            pesan: "Error: Nama Calhaj belum diisi atau data tidak valid.",
             kekurangan: []
         };
     }
@@ -33,6 +32,8 @@ function validasiKeberangkatan(data) {
     if (!syarat.ktpValid) kekurangan.push("KTP tidak valid / belum diverifikasi Dukcapil");
     if (!syarat.pasporAktif) kekurangan.push("Paspor belum aktif atau masa berlaku kurang dari 6 bulan");
     if (!syarat.lunasBpih) kekurangan.push("Pelunasan Biaya Perjalanan Ibadah Haji (BPIH) belum lunas");
+    if (!syarat.vaksinMeningitis) kekurangan.push("Sertifikat Vaksin Meningitis (e-ICV) belum tercatat");
+    if (!syarat.vaksinPolio) kekurangan.push("Vaksin Polio (IPV) wajib minimal 4 minggu sebelum keberangkatan belum terpenuhi");
     if (!syarat.sehatMedis) kekurangan.push("Medical Check-Up (Kesehatan) belum memenuhi syarat istitha'ah");
 
     const isLolos = kekurangan.length === 0;
@@ -40,21 +41,14 @@ function validasiKeberangkatan(data) {
     return {
         status: isLolos,
         pesan: isLolos 
-            ? "Alhamdulillah! Semua persyaratan lengkap & Istitha'ah terpenuhi. Silakan lanjut ke tahap manasik di Tanah Suci." 
-            : "Maaf, Anda belum bisa lanjut ke Tanah Suci. Lengkapi persyaratan berikut terlebih dahulu:",
+            ? "Alhamdulillah! Dokumen, syarat istitha'ah, dan seluruh vaksin wajib Kemenkes lengkap. Siap berangkat!" 
+            : "Maaf, Anda belum bisa lanjut ke Tanah Suci. Penuhi persyaratan kesehatan & vaksin berikut:",
         kekurangan: kekurangan
     };
 }
 
-/**
- * Fungsi aksi bagi user untuk berusaha memperbaiki kesehatan (Mini-Quest)
- */
-function prosesPemulihanKesehatan() {
-    if (jamaahData.syarat.sehatMedis) {
-        return "Kesehatan Anda sudah prima dan memenuhi syarat istitha'ah!";
-    }
-    
-    // Simulasi proses medis: cek kesehatan ulang, minum obat, dan istirahat
+function aksiPenuhiSyaratKesehatan() {
+    jamaahData.syarat.vaksinPolio = true;
     jamaahData.syarat.sehatMedis = true;
-    return "Alhamdulillah! Setelah menjalani terapi, konsultasi dokter, dan istirahat cukup, hasil Medical Check-Up ulang dinyatakan MEMENUHI SYARAT (Istitha'ah).";
+    return "Alhamdulillah! Vaksin Polio & Meningitis telah disuntikkan, serta e-ICV diterbitkan. Status medis dan administratif kini MEMENUHI SYARAT.";
 }
