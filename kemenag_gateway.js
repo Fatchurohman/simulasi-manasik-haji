@@ -1,19 +1,23 @@
 /**
  * Nama File: kemenag_gateway.js
- * Fungsi: Sistem Verifikasi Berkas & Kesehatan Calon Jamaah Haji
+ * Fungsi: Sistem Verifikasi Berkas & Mini-Quest Perbaikan Kesehatan Istitha'ah
  */
 
-const jamaahData = {
+// Data awal jamaah (Kesehatan diset false agar pemain harus berusaha dulu)
+let jamaahData = {
     nama: "Fatchurohman",
     nom: "REG-2026-0089",
     syarat: {
         ktpValid: true,
         pasporAktif: true,
         lunasBpih: true,
-        sehatMedis: false // Simulasi belum lolos cek kesehatan
+        sehatMedis: false 
     }
 };
 
+/**
+ * Fungsi untuk memvalidasi kelayakan terbang jamaah
+ */
 function validasiKeberangkatan(data) {
     if (!data || typeof data !== 'object' || !data.syarat) {
         return {
@@ -36,25 +40,21 @@ function validasiKeberangkatan(data) {
     return {
         status: isLolos,
         pesan: isLolos 
-            ? "Alhamdulillah! Semua persyaratan lengkap. Silakan lanjut ke tahap manasik di Tanah Suci." 
+            ? "Alhamdulillah! Semua persyaratan lengkap & Istitha'ah terpenuhi. Silakan lanjut ke tahap manasik di Tanah Suci." 
             : "Maaf, Anda belum bisa lanjut ke Tanah Suci. Lengkapi persyaratan berikut terlebih dahulu:",
         kekurangan: kekurangan
     };
 }
 
-// Eksekusi
-try {
-    console.log(`=== STATUS PENDAFTARAN KEMENAG: ${jamaahData.nama} (${jamaahData.nom}) ===`);
-    const hasilVerifikasi = validasiKeberangkatan(jamaahData);
-    
-    console.log(`\nStatus: ${hasilVerifikasi.status ? "LOLOS (BERANGKAT)" : "DITUNDA (BELUM LENGKAP)"}`);
-    console.log(`Pesan: ${hasilVerifikasi.pesan}`);
-
-    if (!hasilVerifikasi.status) {
-        hasilVerifikasi.kekurangan.forEach((item, index) => {
-            console.log(`${index + 1}. [X] ${item}`);
-        });
+/**
+ * Fungsi aksi bagi user untuk berusaha memperbaiki kesehatan (Mini-Quest)
+ */
+function prosesPemulihanKesehatan() {
+    if (jamaahData.syarat.sehatMedis) {
+        return "Kesehatan Anda sudah prima dan memenuhi syarat istitha'ah!";
     }
-} catch (error) {
-    console.error("Terjadi kesalahan sistem:", error.message);
+    
+    // Simulasi proses medis: cek kesehatan ulang, minum obat, dan istirahat
+    jamaahData.syarat.sehatMedis = true;
+    return "Alhamdulillah! Setelah menjalani terapi, konsultasi dokter, dan istirahat cukup, hasil Medical Check-Up ulang dinyatakan MEMENUHI SYARAT (Istitha'ah).";
 }
