@@ -1,32 +1,38 @@
 /**
  * Nama File: manasik_tanah_suci.js
- * Fungsi: Simulasi Perjalanan Gelombang 1 (Madinah -> Miqat Bir Ali -> Umrah Tamattu' -> Makkah)
+ * Fungsi: Simulasi Detail Alur Kedatangan Gelombang 1 (Bandara Madinah hingga Bir Ali)
  */
 
 const databaseManasik = {
     penerbangan: {
-        lokasi: "Penerbangan Menuju Madinah (Gelombang 1)",
-        tindakan: "Pendaratan di Bandara AMAA Madinah. Belum berihram dari tanah air karena fokus ke Madinah dulu.",
-        tips: "Istirahat sejenak di hotel sektor Madinah sebelum memulai Arbain."
+        lokasi: "Bandara AMAA Madinah (Gelombang 1)",
+        tindakan: "Pendaratan pesawat calhaj asal Indonesia di Madinah.",
+        rincianAlur: [
+            "1. Pemeriksaan Dokumen & Imigrasi: Jemaah turun dari pesawat, lalu melewati proses pemeriksaan paspor dan keimigrasian oleh otoritas Arab Saudi.",
+            "2. Pemeriksaan Barang: Pengambilan atau pengecekan tas kabin/barang bawaan melalui mesin pemindai (x-ray) jika diperlukan.",
+            "3. Pengumpulan Paspor: Paspor jemaah kemudian dikoordinasikan dan diserahkan kepada Petugas Penyelenggara Ibadah Haji (PPIH) / Petugas Kloter untuk pengurusan akomodasi.",
+            "4. Penunggu Bus: Jemaah diarahkan menuju ruang tunggu atau langsung ke bus yang disiapkan perusahaan bus maktab/Arab Saudi.",
+            "5. Pemberangkatan ke Hotel: Jemaah diangkut menggunakan bus menuju pemondokan atau hotel di wilayah Markaziyah (sekitar Masjid Nabawi) di Madinah.",
+            "6. Pembagian Kamar: Setibanya di hotel, ketua kloter membagikan kunci kamar dan penempatan tempat tidur bagi Jemaah.",
+            "7. Istirahat & Orientasi: Jemaah beristirahat sejenak memulihkan tenaga setelah perjalanan panjang."
+        ]
     },
     madinah: {
         lokasi: "Masjid Nabawi, Madinah (Arbain)",
-        tindakan: "Melaksanakan Shalat Arbain (40 waktu berjamaah) & Ziarah Raudhah",
-        doaHarian: "Allahummaftah lii abwaaba rahmatika."
+        tindakan: "Pelaksanaan Arbain",
+        rincianArbain: [
+            "Jamaah haji gelombang pertama menetap di Madinah selama kurang lebih 8 hingga 9 hari.",
+            "Melaksanakan shalat Arbain (shalat wajib berjamaah 40 waktu berturut-turut) di Masjid Nabawi.",
+            "Melakukan ziarah makam Rasulullah SAW serta Raudhah."
+        ]
     },
     pergeseranMiqat: {
-        lokasi: "Bir Ali (Dzul Hulaifah)",
-        tindakan: "Miqat Umrah Tamattu' (Mandi sunnah ihram, memakai pakaian ihram, shalat sunnah, & niat Umrah di Bir Ali)",
-        tips: "Mulai memperbanyak bacaan Talbiyah sepanjang perjalanan bus menuju Makkah."
-    },
-    makkahUmrah: {
-        lokasi: "Masjidil Haram, Makkah",
-        tindakan: "Pelaksanaan Umrah Pertama (Rangkaian Tamattu')",
-        rincianThawaf: [
-            "1. Thawaf Umrah: 7 putaran mengelilingi Ka'bah (disunnahkan Idhtiba' dan Raml untuk pria).",
-            "2. Shalat Sunnah & Doa: Shalat dua rakaat di belakang Maqam Ibrahim dan minum air Zamzam.",
-            "3. Sa'i Umrah: Berjalan/lari kecil 7 kali perjalanan antara bukit Safa dan Marwah.",
-            "4. Tahallul Umrah: Bergunting rambut (tahallul awal), sehingga jamaah tahul bebas dari larangan ihram sampai 8 Dzulhijjah."
+        lokasi: "Perjalanan Menuju Makkah (via Bir Ali)",
+        tindakan: "Berangkat ke Makkah & Miqat Umrah Tamattu'",
+        rincianBerangkat: [
+            "Setelah masa Arbain selesai, jemaah mengenakan pakaian ihram dari hotel (atau mandi sunnah ihram).",
+            "Naik bus menuju Makkah dan singgah di Bir Ali (miqat makani) untuk mengambil miqat umrah qudum.",
+            "Memulai niat umrah dan memperbanyak bacaan Talbiyah sepanjang perjalanan."
         ]
     }
 };
@@ -37,36 +43,30 @@ function jalankanSimulasiManasik(dataManasik) {
     }
 
     console.log("==========================================");
-    console.log("   SIMULASI PERJALANAN GELOMBANG 1 (TAMATTU') ");
+    console.log("   SIMULASI ALUR KEDATANGAN GELOMBANG 1    ");
     console.log("==========================================");
 
     const penerbangan = dataManasik.penerbangan;
-    if (penerbangan) {
+    if (penerbangan && Array.isArray(penerbangan.rincianAlur)) {
         console.log(`\n[FASE 1] ${penerbangan.lokasi}`);
-        console.log(`- Aktivitas: ${penerbangan.tindakan}`);
-        console.log(`- Tips: ${penerbangan.tips}`);
+        penerbangan.rincianAlur.forEach((langkah) => {
+            console.log(`  ${langkah}`);
+        });
     }
 
     const madinah = dataManasik.madinah;
-    if (madinah) {
+    if (madinah && Array.isArray(madinah.rincianArbain)) {
         console.log(`\n[FASE 2] ${madinah.lokasi}`);
-        console.log(`- Kegiatan: ${madinah.tindakan}`);
-        console.log(`- Doa: "${madinah.doaHarian}"`);
+        madinah.rincianArbain.forEach((poin) => {
+            console.log(`  - ${poin}`);
+        });
     }
 
-    const miqat = dataManasik.pergeseranMiqat;
-    if (miqat) {
-        console.log(`\n[FASE 3] ${miqat.lokasi}`);
-        console.log(`- Kegiatan: ${miqat.tindakan}`);
-        console.log(`- Catatan: ${miqat.tips}`);
-    }
-
-    const makkahUmrah = dataManasik.makkahUmrah;
-    if (makkahUmrah && Array.isArray(makkahUmrah.rincianThawaf)) {
-        console.log(`\n[FASE 4] ${makkahUmrah.lokasi}`);
-        console.log(`- Kegiatan: ${makkahUmrah.tindakan}`);
-        makkahUmrah.rincianThawaf.forEach((langkah) => {
-            console.log(`  ${langkah}`);
+    const pergeseran = dataManasik.pergeseranMiqat;
+    if (pergeseran && Array.isArray(pergeseran.rincianBerangkat)) {
+        console.log(`\n[FASE 3] ${pergeseran.lokasi}`);
+        pergeseran.rincianBerangkat.forEach((poin) => {
+            console.log(`  - ${poin}`);
         });
     }
 }
