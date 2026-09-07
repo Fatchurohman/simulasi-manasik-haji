@@ -35,6 +35,42 @@ body {
 .game-header p {
     font-size: 0.95rem;
     color: #b2dfdb;
+    margin-bottom: 12px;
+}
+
+/* Styling Badge Developer & Titik Kelap-Kelip */
+.dev-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-family: monospace;
+    letter-spacing: 0.5px;
+    color: #e0f2f1;
+}
+
+.blinking-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #69f0ae;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 6px #69f0ae;
+    animation: kelapKelip 1.2s infinite ease-in-out;
+}
+
+@keyframes kelapKelip {
+    0%, 100% {
+        opacity: 0.2;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
 }
 
 /* Dashboard Grid */
