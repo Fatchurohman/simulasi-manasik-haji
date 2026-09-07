@@ -11,7 +11,6 @@
         <header class="game-header">
             <h1>Simulasi Manasik Haji & Umrah</h1>
             <p>Panduan Interaktif & Edukatif Langkah demi Langkah</p>
-            <!-- Tambahan Identitas Developer -->
             <div class="dev-badge">
                 <span class="blinking-dot"></span>
                 <span>developer : fatur62</span>
@@ -19,14 +18,24 @@
         </header>
 
         <main class="dashboard-grid">
-            <!-- Panel Kontrol Simulasi -->
+            <!-- Panel Kontrol & Input Identitas -->
             <section class="card">
+                <h2>Registrasi Calon Jamaah</h2>
+                <div class="input-group" style="margin-bottom: 15px;">
+                    <label for="inputNama" style="display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 5px;">Masukkan Nama Calhaj:</label>
+                    <input type="text" id="inputNama" placeholder="Contoh: Ahmad Fauzi" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.95rem;">
+                    <button id="btnSimpanNama" class="btn" style="margin-top: 8px; width: 100%; background-color: #004d40;">Simpan & Mulai Pendaftaran</button>
+                </div>
+
+                <hr style="border: 0; border-top: 1px solid #e0e0e0; margin: 15px 0;">
+
                 <h2>Panel Kontrol Perjalanan</h2>
-                <p>Pilih fase ibadah yang ingin disimulasikan:</p>
+                <p>Pilih fase ibadah (aktif setelah isi nama):</p>
                 <div class="button-group">
-                    <button id="btnGateway" class="btn">1. Cek Berkas Kemenag</button>
-                    <button id="btnTanahSuci" class="btn">2. Perjalanan & Madinah</button>
-                    <button id="btnPuncakHaji" class="btn">3. Puncak Haji (Arafah-Mina)</button>
+                    <button id="btnGateway" class="btn" disabled style="opacity: 0.6; cursor: not-allowed;">1. Cek Berkas Kemenag</button>
+                    <button id="btnBerusahaSehat" class="btn btn-action" style="display: none; background-color: #d97706;">🏥 Suntik Vaksin & Berobat</button>
+                    <button id="btnTanahSuci" class="btn" disabled style="opacity: 0.6; cursor: not-allowed;">2. Perjalanan & Madinah</button>
+                    <button id="btnPuncakHaji" class="btn" disabled style="opacity: 0.6; cursor: not-allowed;">3. Puncak Haji (Arafah-Mina)</button>
                 </div>
             </section>
 
@@ -34,7 +43,7 @@
             <section class="card output-card">
                 <h2>Log Aktivitas & Panduan</h2>
                 <div id="outputConsole" class="console-box">
-                    Selamat datang, Jamaah. Silakan klik salah satu tombol di panel kontrol untuk memulai simulasi.
+                    Silakan masukkan nama Calon Jamaah terlebih dahulu pada kolom registrasi di sebelah kiri.
                 </div>
             </section>
         </main>
