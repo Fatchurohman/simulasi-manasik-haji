@@ -1,0 +1,120 @@
+/* Reset & Pengaturan Dasar */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f4f7f6;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.game-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Header Game */
+.game-header {
+    text-align: center;
+    background: #004d40;
+    color: #ffffff;
+    padding: 25px;
+    border-radius: 8px 8px 0 0;
+}
+
+.game-header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+}
+
+.game-header p {
+    font-size: 0.95rem;
+    color: #b2dfdb;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Card Styling */
+.card {
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    border-radius: 6px;
+}
+
+.card h2 {
+    font-size: 1.2rem;
+    color: #004d40;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #b2dfdb;
+    padding-bottom: 8px;
+}
+
+/* Button Group (Flexbox) */
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.btn {
+    background-color: #00796b;
+    color: white;
+    border: none;
+    padding: 12px 15px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    text-align: left;
+}
+
+.btn:hover {
+    background-color: #004d40;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+/* Console Box Output */
+.output-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.console-box {
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85rem;
+    padding: 15px;
+    border-radius: 4px;
+    height: 300px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    border: 1px solid #333;
+}
