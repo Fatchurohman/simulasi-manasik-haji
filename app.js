@@ -46,6 +46,81 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Fungsi khusus untuk merender Kartu Aktivitas Puncak Haji ke UI HTML
+    function renderKartuPuncakHaji(dataRute) {
+        if (!dataRute || !Array.isArray(dataRute) || dataRute.length === 0) {
+            outputConsole.innerHTML = "<p style='color:red;'>Data puncak haji tidak ditemukan.</p>";
+            return;
+        }
+
+        let htmlContent = `
+            <div style="font-family: sans-serif; text-align: left; padding: 10px;">
+                <h3 style="margin-top:0; border-bottom: 2px solid #ccc; padding-bottom: 5px;">
+                    🕋 Simulasi Puncak Haji & Tarwiyah (${jamaahData?.nama || 'Jamaah'})
+                </h3>
+        `;
+
+        dataRute.forEach((fase, idx) => {
+            if (!fase || typeof fase !== 'object') return;
+
+            const hasBacaan = fase.bacaan && typeof fase.bacaan === 'object';
+
+            htmlContent += `
+                <div style="border: 1px solid #ddd; border-radius: 8px; margin-bottom: 12px; padding: 12px; background-color: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <label style="font-weight: bold; font-size: 1.05em; cursor: pointer;">
+                            <input type="checkbox" id="chk-${idx}" style="margin-right: 8px; transform: scale(1.2);">
+                            Kartu #${idx + 1}: ${fase.judul || 'Aktivitas'}
+                        </label>
+                        <span style="background-color: #e0f2fe; color: #0369a1; padding: 3px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold;">
+                            ${fase.statusHukum || 'Panduan'}
+                        </span>
+                    </div>
+
+                    <div style="margin-top: 8px; font-size: 0.88em; color: #555;">
+                        <span>📅 <b>Waktu:</b> ${fase.hari || '-'}</span> | 
+                        <span>📍 <b>Lokasi:</b> ${fase.lokasi || '-'}</span>
+                    </div>
+
+                    <p style="margin: 8px 0 4px 0; font-weight: 600; font-size: 0.9em;">Kegiatan Utama: ${fase.kegiatanUtama || '-'}</p>
+            `;
+
+            if (Array.isArray(fase.detail) && fase.detail.length > 0) {
+                htmlContent += `<ul style="margin: 4px 0 8px 20px; padding: 0; font-size: 0.88em; color: #333;">`;
+                fase.detail.forEach(instruksi => {
+                    htmlContent += `<li style="margin-bottom: 2px;">${instruksi}</li>`;
+                });
+                htmlContent += `</ul>`;
+            }
+
+            if (hasBacaan) {
+                htmlContent += `
+                    <details style="margin-top: 8px; background-color: #f9fafb; padding: 8px; border-radius: 6px; border: 1px dashed #ccc;">
+                        <summary style="cursor: pointer; font-weight: bold; color: #2563eb; font-size: 0.88em;">
+                            📖 Lihat Bacaan / Doa (${fase.bacaan.judulDoa || 'Doa'})
+                        </summary>
+                        <div style="margin-top: 8px; text-align: center;">
+                            <p style="font-size: 1.3em; margin: 4px 0; font-family: 'Amiri', 'Traditional Arabic', serif; direction: rtl; color: #0f172a;">
+                                ${fase.bacaan.arab || ''}
+                            </p>
+                            <p style="font-size: 0.85em; font-style: italic; color: #475569; margin: 4px 0;">
+                                "${fase.bacaan.latin || ''}"
+                            </p>
+                            <p style="font-size: 0.82em; color: #334155; margin: 4px 0;">
+                                <b>Artinya:</b> ${fase.bacaan.arti || ''}
+                            </p>
+                        </div>
+                    </details>
+                `;
+            }
+
+            htmlContent += `</div>`;
+        });
+
+        htmlContent += `</div>`;
+        outputConsole.innerHTML = htmlContent;
+    }
+
     // Aksi saat user memasukkan nama dan klik Simpan
     btnSimpanNama.addEventListener('click', () => {
         const namaInput = inputNama.value.trim();
@@ -114,9 +189,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Tombol Puncak Haji: Menampilkan Kartu Aktivitas Interaktif
     btnPuncakHaji.addEventListener('click', () => {
-        tangkapLog(() => {
-            jalankanPuncakHaji(rutePuncakHaji);
-        });
+        try {
+            renderKartuPuncakHaji(rutePuncakHaji);
+        } catch (err) {
+            outputConsole.textContent = "Terjadi kesalahan saat memuat Kartu Puncak Haji: " + err.message;
+        }
     });
 });
